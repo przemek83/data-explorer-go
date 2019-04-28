@@ -45,6 +45,6 @@ func main() {
 
 	fmt.Println()
 	end := time.Now()
-	fmt.Printf("Data loaded in %fs", end.Sub(begin).Seconds())
+	fmt.Printf("Data loaded in %.6fs", end.Sub(begin).Seconds())
 
 }
