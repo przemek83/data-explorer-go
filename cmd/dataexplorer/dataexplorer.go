@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"dataexplorer/internal"
 	"fmt"
 	"os"
 	"time"
@@ -33,18 +34,15 @@ func main() {
 	}
 
 	reader := bufio.NewReader(file)
+	var loader internal.DataLoader = internal.FileDataLoader{}
+	ok, headers := loader.Load(reader)
 
-	var line string
-	for {
-		line, err = reader.ReadString('\n')
-		if err != nil {
-			break
-		}
-		fmt.Print(line)
+	fmt.Println()
+	if ok {
+		fmt.Printf("Data loaded, headers count %d", len(headers))
 	}
 
 	fmt.Println()
 	end := time.Now()
 	fmt.Printf("Data loaded in %.6fs", end.Sub(begin).Seconds())
-
 }
