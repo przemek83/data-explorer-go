@@ -35,11 +35,11 @@ func main() {
 
 	reader := bufio.NewReader(file)
 	var loader internal.DataLoader = internal.FileDataLoader{}
-	ok, headers := loader.Load(reader)
+	ok := loader.Load(reader)
 
 	fmt.Println()
 	if ok {
-		fmt.Printf("Data loaded, headers count %d", len(headers))
+		fmt.Printf("Data loaded") // , headers count %d", len(headers))
 	}
 
 	fmt.Println()

@@ -6,13 +6,13 @@ import (
 )
 
 const delimiter = ';'
-const delimiterLenght = 1
+const delimiterLength = 1
 
 // FileDataLoader : file data loader.
 type FileDataLoader struct {
 }
 
-func (loader FileDataLoader) Load(reader *bufio.Reader) (bool, []string) {
+func (loader FileDataLoader) Load(reader *bufio.Reader) bool {
 	var line string
 	var err error
 	for {
@@ -23,5 +23,13 @@ func (loader FileDataLoader) Load(reader *bufio.Reader) (bool, []string) {
 		fmt.Print(line)
 	}
 
-	return true, make([]string, 0)
+	return true
+}
+
+func (loader FileDataLoader) GetHeaders() []string {
+	return []string{}
+}
+
+func (loader FileDataLoader) GetColumnTypes() []ColumnType {
+	return []ColumnType{}
 }
