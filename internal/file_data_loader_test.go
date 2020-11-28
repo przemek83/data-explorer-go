@@ -29,8 +29,8 @@ const inputWithoutData = `bla;bla;bla
 string;integer;integer`
 
 func TestLoadValidFile(t *testing.T) {
+	loader := FileDataLoader{}
 	reader := bufio.NewReader(strings.NewReader(validInputString))
-	var loader DataLoader = FileDataLoader{}
 	ok := loader.Load(reader)
 	if !ok {
 		t.Error("File not loaded.")
