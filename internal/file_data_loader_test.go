@@ -29,10 +29,18 @@ const inputWithoutData = `bla;bla;bla
 string;integer;integer`
 
 func TestLoadValidFile(t *testing.T) {
-	loader := FileDataLoader{}
-	reader := bufio.NewReader(strings.NewReader(validInputString))
-	ok := loader.Load(reader)
-	if !ok {
-		t.Error("File not loaded.")
+	testCases := []struct {
+		data string
+	}{
+		{validInputString}, {emptyDataInput},
+	}
+
+	for _, tc := range testCases {
+		loader := FileDataLoader{}
+		reader := bufio.NewReader(strings.NewReader(tc.data))
+		ok := loader.Load(reader)
+		if !ok {
+			t.Error("File not loaded.")
+		}
 	}
 }
