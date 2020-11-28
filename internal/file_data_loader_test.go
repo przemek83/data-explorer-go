@@ -2,6 +2,7 @@ package internal
 
 import (
 	"bufio"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -47,5 +48,16 @@ func TestLoad(t *testing.T) {
 		if ok != tc.expectedResult {
 			t.Errorf("Wrong loading result. Expected %t, got %t, data \"%s\"", tc.expectedResult, ok, tc.data)
 		}
+	}
+}
+
+func TestGetHeaders(t *testing.T) {
+	loader := FileDataLoader{}
+	reader := bufio.NewReader(strings.NewReader(validInputString))
+	loader.Load(reader)
+	currentHeaders := loader.GetHeaders()
+	expectedHeaders := []string{"first_name", "age", "movie_name", "score"}
+	if !reflect.DeepEqual(currentHeaders, expectedHeaders) {
+		t.Errorf("Wrong headers. Expected %v, got %v", expectedHeaders, currentHeaders)
 	}
 }
