@@ -32,7 +32,7 @@ func TestLoadValidFile(t *testing.T) {
 	testCases := []struct {
 		data string
 	}{
-		{validInputString}, {emptyDataInput},
+		{validInputString}, {inputWithoutData},
 	}
 
 	for _, tc := range testCases {
@@ -40,7 +40,24 @@ func TestLoadValidFile(t *testing.T) {
 		reader := bufio.NewReader(strings.NewReader(tc.data))
 		ok := loader.Load(reader)
 		if !ok {
-			t.Error("File not loaded.")
+			t.Errorf("File not loaded. File content \"%s\"", tc.data)
+		}
+	}
+}
+
+func TestLoadInvalidFile(t *testing.T) {
+	testCases := []struct {
+		data string
+	}{
+		{emptyDataInput}, {inputWithWrongColumnTypeName}, {inputWithWrongColumnCount},
+	}
+
+	for _, tc := range testCases {
+		loader := FileDataLoader{}
+		reader := bufio.NewReader(strings.NewReader(tc.data))
+		ok := loader.Load(reader)
+		if ok {
+			t.Errorf("Loading corrupted file succeeded. File content \"%s\"", tc.data)
 		}
 	}
 }
