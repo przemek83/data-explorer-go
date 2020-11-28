@@ -61,3 +61,14 @@ func TestGetHeaders(t *testing.T) {
 		t.Errorf("Wrong headers. Expected %v, got %v", expectedHeaders, currentHeaders)
 	}
 }
+
+func TestGetColumnTypes(t *testing.T) {
+	loader := FileDataLoader{}
+	reader := bufio.NewReader(strings.NewReader(validInputString))
+	loader.Load(reader)
+	currentColumnTypes := loader.GetColumnTypes()
+	expectedColumnTypes := []ColumnType{String, Integer, String, Integer}
+	if !reflect.DeepEqual(currentColumnTypes, expectedColumnTypes) {
+		t.Errorf("Wrong column types. Expected %v, got %v", expectedColumnTypes, currentColumnTypes)
+	}
+}
