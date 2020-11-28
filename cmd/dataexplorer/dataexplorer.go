@@ -22,9 +22,7 @@ func parseArgs() string {
 	return os.Args[1]
 }
 
-func main() {
-	fileName := parseArgs()
-
+func loadData(fileName string) {
 	begin := time.Now()
 
 	file, err := os.Open(fileName)
@@ -36,13 +34,13 @@ func main() {
 	reader := bufio.NewReader(file)
 	var loader internal.DataLoader = internal.FileDataLoader{}
 	ok := loader.Load(reader)
-
-	fmt.Println()
 	if ok {
-		fmt.Printf("Data loaded") // , headers count %d", len(headers))
+		end := time.Now()
+		fmt.Printf("Data loaded in %.6fs", end.Sub(begin).Seconds())
 	}
+}
 
-	fmt.Println()
-	end := time.Now()
-	fmt.Printf("Data loaded in %.6fs", end.Sub(begin).Seconds())
+func main() {
+	fileName := parseArgs()
+	loadData(fileName)
 }
