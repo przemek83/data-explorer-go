@@ -2,7 +2,6 @@ package internal
 
 import (
 	"bufio"
-	"fmt"
 )
 
 const delimiter = ';'
@@ -13,14 +12,14 @@ type FileDataLoader struct {
 }
 
 func (loader FileDataLoader) Load(reader *bufio.Reader) bool {
-	var line string
+	// var line string
 	var err error
 	for {
-		line, err = reader.ReadString('\n')
+		_, err = reader.ReadString('\n')
 		if err != nil {
 			break
 		}
-		fmt.Print(line)
+		//fmt.Print(line)
 	}
 
 	return true
