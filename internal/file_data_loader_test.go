@@ -28,36 +28,24 @@ tim;26;inception;8`
 const inputWithoutData = `bla;bla;bla
 string;integer;integer`
 
-func TestLoadValidFile(t *testing.T) {
+func TestLoad(t *testing.T) {
 	testCases := []struct {
-		data string
+		data           string
+		expectedResult bool
 	}{
-		{validInputString}, {inputWithoutData},
+		{validInputString, true},
+		{inputWithoutData, true},
+		{emptyDataInput, false},
+		{inputWithWrongColumnTypeName, false},
+		{inputWithWrongColumnCount, false},
 	}
 
 	for _, tc := range testCases {
 		loader := FileDataLoader{}
 		reader := bufio.NewReader(strings.NewReader(tc.data))
 		ok := loader.Load(reader)
-		if !ok {
-			t.Errorf("File not loaded. File content \"%s\"", tc.data)
-		}
-	}
-}
-
-func TestLoadInvalidFile(t *testing.T) {
-	testCases := []struct {
-		data string
-	}{
-		{emptyDataInput}, {inputWithWrongColumnTypeName}, {inputWithWrongColumnCount},
-	}
-
-	for _, tc := range testCases {
-		loader := FileDataLoader{}
-		reader := bufio.NewReader(strings.NewReader(tc.data))
-		ok := loader.Load(reader)
-		if ok {
-			t.Errorf("Loading corrupted file succeeded. File content \"%s\"", tc.data)
+		if ok != tc.expectedResult {
+			t.Errorf("Wrong loading result. Expected %t, got %t, data \"%s\"", tc.expectedResult, ok, tc.data)
 		}
 	}
 }
