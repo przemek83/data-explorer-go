@@ -42,9 +42,9 @@ func TestLoad(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		loader := FileDataLoader{}
 		reader := bufio.NewReader(strings.NewReader(tc.data))
-		ok := loader.Load(reader)
+		loader := MakeFileDataLoader(reader)
+		ok := loader.Load()
 		if ok != tc.expectedResult {
 			t.Errorf("Wrong loading result. Expected %t, got %t, data \"%s\"", tc.expectedResult, ok, tc.data)
 		}
@@ -52,9 +52,9 @@ func TestLoad(t *testing.T) {
 }
 
 func TestGetHeaders(t *testing.T) {
-	loader := FileDataLoader{}
 	reader := bufio.NewReader(strings.NewReader(validInputString))
-	loader.Load(reader)
+	loader := MakeFileDataLoader(reader)
+	loader.Load()
 	currentHeaders := loader.GetHeaders()
 	expectedHeaders := []string{"first_name", "age", "movie_name", "score"}
 	if !reflect.DeepEqual(currentHeaders, expectedHeaders) {
@@ -63,9 +63,9 @@ func TestGetHeaders(t *testing.T) {
 }
 
 func TestGetColumnTypes(t *testing.T) {
-	loader := FileDataLoader{}
 	reader := bufio.NewReader(strings.NewReader(validInputString))
-	loader.Load(reader)
+	loader := MakeFileDataLoader(reader)
+	loader.Load()
 	currentColumnTypes := loader.GetColumnTypes()
 	expectedColumnTypes := []ColumnType{String, Integer, String, Integer}
 	if !reflect.DeepEqual(currentColumnTypes, expectedColumnTypes) {

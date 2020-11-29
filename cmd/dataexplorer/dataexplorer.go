@@ -32,8 +32,8 @@ func loadData(fileName string) {
 	}
 
 	reader := bufio.NewReader(file)
-	loader := internal.FileDataLoader{}
-	ok := loader.Load(reader)
+	loader := internal.MakeFileDataLoader(reader)
+	ok := loader.Load()
 	if ok {
 		end := time.Now()
 		fmt.Printf("Data loaded in %.6fs", end.Sub(begin).Seconds())

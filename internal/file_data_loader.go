@@ -9,13 +9,18 @@ const delimiterLength = 1
 
 // FileDataLoader : file data loader.
 type FileDataLoader struct {
+	reader *bufio.Reader
 }
 
-func (loader FileDataLoader) Load(reader *bufio.Reader) bool {
+func MakeFileDataLoader(reader *bufio.Reader) FileDataLoader {
+	return FileDataLoader{reader}
+}
+
+func (loader FileDataLoader) Load() bool {
 	// var line string
 	var err error
 	for {
-		_, err = reader.ReadString('\n')
+		_, err = loader.reader.ReadString('\n')
 		if err != nil {
 			break
 		}
