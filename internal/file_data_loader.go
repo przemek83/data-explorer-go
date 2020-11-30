@@ -2,7 +2,6 @@ package internal
 
 import (
 	"bufio"
-	"fmt"
 	"strings"
 )
 
@@ -42,7 +41,6 @@ func (loader *FileDataLoader) Load() bool {
 
 func (loader *FileDataLoader) loadColumnTypes(line string) {
 	for _, columnAsString := range strings.Split(line, ";") {
-		fmt.Println(columnAsString)
 		loader.columnTypes = append(loader.columnTypes, ColumnTypeFromString(columnAsString))
 	}
 }
