@@ -15,3 +15,7 @@ const (
 func (d ColumnType) String() string {
 	return [...]string{"integer", "string", ""}[d]
 }
+
+func ColumnTypeFromString(columnTypeString string) ColumnType {
+	return Unknown
+}
