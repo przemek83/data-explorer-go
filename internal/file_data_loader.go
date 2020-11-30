@@ -2,6 +2,7 @@ package internal
 
 import (
 	"bufio"
+	"fmt"
 	"strings"
 )
 
@@ -25,21 +26,31 @@ func (loader *FileDataLoader) Load() bool {
 		if err != nil {
 			break
 		}
+		line = strings.TrimSuffix(line, "\n")
 		if len(loader.headers) == 0 {
-			loader.headers = strings.Split(strings.TrimSuffix(line, "\n"), ";")
+			loader.headers = strings.Split(line, ";")
+			continue
 		}
 		if len(loader.columnTypes) == 0 {
-
+			loader.loadColumnTypes(line)
+			continue
 		}
 	}
 
 	return true
 }
 
-func (loader FileDataLoader) GetHeaders() []string {
+func (loader *FileDataLoader) loadColumnTypes(line string) {
+	for _, columnAsString := range strings.Split(line, ";") {
+		fmt.Println(columnAsString)
+		loader.columnTypes = append(loader.columnTypes, ColumnTypeFromString(columnAsString))
+	}
+}
+
+func (loader *FileDataLoader) GetHeaders() []string {
 	return loader.headers
 }
 
-func (loader FileDataLoader) GetColumnTypes() []ColumnType {
-	return []ColumnType{}
+func (loader *FileDataLoader) GetColumnTypes() []ColumnType {
+	return loader.columnTypes
 }
