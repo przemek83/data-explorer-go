@@ -3,23 +3,29 @@ package main
 import (
 	"bufio"
 	"dataexplorer/internal"
+	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
 	"time"
 )
 
-func exitWithHelp() {
-	fmt.Fprintln(os.Stderr, "Usage: <binary> file")
-	fmt.Fprintln(os.Stderr, " file - name of data file.")
-	os.Exit(-1)
+func programUsage() {
+	fmt.Printf("Usage: %s file operation aggregation grouping\n", filepath.Base(os.Args[0]))
+	fmt.Println("Where:")
+	fmt.Println("\tfile        - Input file")
+	fmt.Println("\toperation   - Arithmetic operation to perform")
+	fmt.Println("\taggregation - Aggregation column (numerical only)")
+	fmt.Println("\tgrouping    - Grouping by column")
 }
 
-func parseArgs() string {
-	if len(os.Args) != 2 {
-		exitWithHelp()
+func parseArgs() []string {
+	flag.Parse()
+	if flag.NArg() != 4 {
+		flag.Usage()
+		os.Exit(1)
 	}
-
-	return os.Args[1]
+	return os.Args[1:]
 }
 
 func loadData(fileName string) {
@@ -41,6 +47,8 @@ func loadData(fileName string) {
 }
 
 func main() {
-	fileName := parseArgs()
-	loadData(fileName)
+	flag.Usage = programUsage
+	params := parseArgs()
+	fmt.Println("Executing program with params", params)
+	loadData(params[0])
 }
