@@ -8,15 +8,31 @@ import (
 const delimiter = ';'
 const delimiterLength = 1
 
+type Column interface {
+	append()
+	get(index int) interface{}
+}
+
+type ColumnNumeric struct {
+	Column
+	data []int
+}
+
+type ColumnString struct {
+	Column
+	data []string
+}
+
 // FileDataLoader : file data loader.
 type FileDataLoader struct {
 	reader      *bufio.Reader
 	headers     []string
 	columnTypes []ColumnType
+	data        []Column
 }
 
 func MakeFileDataLoader(reader *bufio.Reader) FileDataLoader {
-	return FileDataLoader{reader, []string{}, []ColumnType{}}
+	return FileDataLoader{reader, []string{}, []ColumnType{}, []Column{}}
 }
 
 func (loader *FileDataLoader) Load() bool {
