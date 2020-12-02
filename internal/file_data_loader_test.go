@@ -30,24 +30,26 @@ const inputWithoutData = `bla;bla;bla
 string;integer;integer`
 
 func TestLoad(t *testing.T) {
-	testCases := []struct {
-		data           string
-		expectedResult bool
+	tests := []struct {
+		name string
+		data string
+		want bool
 	}{
-		{validInputString, true},
-		{inputWithoutData, true},
-		{emptyDataInput, false},
-		{inputWithWrongColumnTypeName, false},
-		{inputWithWrongColumnCount, false},
+		{"Valid input string", validInputString, true},
+		{"Input without data", inputWithoutData, true},
+		{"Empty data input", emptyDataInput, false},
+		{"Input with wrong column type name", inputWithWrongColumnTypeName, false},
+		{"Input with wrong column count", inputWithWrongColumnCount, false},
 	}
 
-	for _, tc := range testCases {
-		reader := bufio.NewReader(strings.NewReader(tc.data))
-		loader := MakeFileDataLoader(reader)
-		ok := loader.Load()
-		if ok != tc.expectedResult {
-			t.Errorf("Wrong loading result. Expected %t, got %t, data \"%s\"", tc.expectedResult, ok, tc.data)
-		}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			reader := bufio.NewReader(strings.NewReader(tt.data))
+			loader := MakeFileDataLoader(reader)
+			if got := loader.Load(); got != tt.want {
+				t.Errorf("FileDataLoader.Load() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }
 
