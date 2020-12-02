@@ -10,7 +10,7 @@ func MakeDataset(loader FileDataLoader) Dataset {
 	return Dataset{loader, []string{}, []ColumnType{}}
 }
 
-func (dataset *Dataset) initialize() bool {
+func (dataset *Dataset) Initialize() bool {
 	return false
 }
 
