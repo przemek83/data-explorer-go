@@ -74,3 +74,55 @@ func TestGetColumnTypes(t *testing.T) {
 		t.Errorf("Wrong column types. Expected %v, got %v", expectedColumnTypes, currentColumnTypes)
 	}
 }
+
+func prepareData() []Column {
+	column1 := ColumnString{}
+	column1.Append("tim")
+	column1.Append("tim")
+	column1.Append("tamas")
+	column1.Append("tamas")
+	column1.Append("dave")
+	column1.Append("dave")
+	var columns []Column
+	columns = append(columns, column1)
+
+	column2 := ColumnNumeric{}
+	column2.Append(26)
+	column2.Append(26)
+	column2.Append(44)
+	column2.Append(44)
+	column2.Append(0)
+	column2.Append(0)
+	columns = append(columns, column2)
+
+	column3 := ColumnString{}
+	column3.Append("inception")
+	column3.Append("pulp_fiction")
+	column3.Append("inception")
+	column3.Append("pulp_fiction")
+	column3.Append("inception")
+	column3.Append("ender's_game")
+	columns = append(columns, column3)
+
+	column4 := ColumnNumeric{}
+	column4.Append(8)
+	column4.Append(8)
+	column4.Append(7)
+	column4.Append(4)
+	column4.Append(8)
+	column4.Append(8)
+	columns = append(columns, column4)
+
+	return columns
+}
+
+func TestGetData(t *testing.T) {
+	reader := bufio.NewReader(strings.NewReader(validInputString))
+	loader := NewFileDataLoader(reader)
+	loader.Load()
+	currentData := loader.GetData()
+	expectedData := prepareData()
+	if !reflect.DeepEqual(currentData, expectedData) {
+		t.Errorf("Wrong data. Expected %v, got %v", expectedData, currentData)
+	}
+}
