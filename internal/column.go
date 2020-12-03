@@ -1,6 +1,6 @@
 package internal
 
 type Column interface {
-	append()
-	get(index int) interface{}
+	Append(value interface{})
+	Get(index int) interface{}
 }
