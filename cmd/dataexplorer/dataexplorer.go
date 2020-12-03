@@ -37,7 +37,7 @@ func loadData(fileName string) {
 	}
 
 	reader := bufio.NewReader(file)
-	loader := internal.MakeFileDataLoader(reader)
+	var loader internal.DataLoader = internal.NewFileDataLoader(reader)
 	ok := loader.Load()
 	if ok {
 		end := time.Now()

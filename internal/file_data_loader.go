@@ -16,8 +16,8 @@ type FileDataLoader struct {
 	data        []Column
 }
 
-func MakeFileDataLoader(reader *bufio.Reader) FileDataLoader {
-	return FileDataLoader{reader, []string{}, []ColumnType{}, []Column{}}
+func NewFileDataLoader(reader *bufio.Reader) *FileDataLoader {
+	return &FileDataLoader{reader, []string{}, []ColumnType{}, []Column{}}
 }
 
 func (loader *FileDataLoader) Load() bool {
@@ -52,4 +52,8 @@ func (loader *FileDataLoader) GetHeaders() []string {
 
 func (loader *FileDataLoader) GetColumnTypes() []ColumnType {
 	return loader.columnTypes
+}
+
+func (loader *FileDataLoader) GetData() []Column {
+	return loader.data
 }
