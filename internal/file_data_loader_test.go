@@ -45,7 +45,7 @@ func TestLoad(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			reader := bufio.NewReader(strings.NewReader(tt.data))
-			loader := MakeFileDataLoader(reader)
+			loader := NewFileDataLoader(reader)
 			if got := loader.Load(); got != tt.want {
 				t.Errorf("FileDataLoader.Load() = %v, want %v", got, tt.want)
 			}
@@ -55,7 +55,7 @@ func TestLoad(t *testing.T) {
 
 func TestGetHeaders(t *testing.T) {
 	reader := bufio.NewReader(strings.NewReader(validInputString))
-	loader := MakeFileDataLoader(reader)
+	loader := NewFileDataLoader(reader)
 	loader.Load()
 	currentHeaders := loader.GetHeaders()
 	expectedHeaders := []string{"first_name", "age", "movie_name", "score"}
@@ -66,7 +66,7 @@ func TestGetHeaders(t *testing.T) {
 
 func TestGetColumnTypes(t *testing.T) {
 	reader := bufio.NewReader(strings.NewReader(validInputString))
-	loader := MakeFileDataLoader(reader)
+	loader := NewFileDataLoader(reader)
 	loader.Load()
 	currentColumnTypes := loader.GetColumnTypes()
 	expectedColumnTypes := []ColumnType{String, Integer, String, Integer}
