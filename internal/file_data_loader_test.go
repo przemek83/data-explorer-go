@@ -75,42 +75,30 @@ func TestGetColumnTypes(t *testing.T) {
 	}
 }
 
+func (column *ColumnNumeric) setData(data []int) {
+	column.data = data
+}
+
+func (column *ColumnString) setData(data []string) {
+	column.data = data
+}
+
 func prepareData() []Column {
 	column1 := ColumnString{}
-	column1.Append("tim")
-	column1.Append("tim")
-	column1.Append("tamas")
-	column1.Append("tamas")
-	column1.Append("dave")
-	column1.Append("dave")
+	column1.setData([]string{"tim", "tim", "tamas", "tamas", "dave", "dave"})
 	var columns []Column
 	columns = append(columns, column1)
 
 	column2 := ColumnNumeric{}
-	column2.Append(26)
-	column2.Append(26)
-	column2.Append(44)
-	column2.Append(44)
-	column2.Append(0)
-	column2.Append(0)
+	column2.setData([]int{26, 26, 44, 44, 0, 0})
 	columns = append(columns, column2)
 
 	column3 := ColumnString{}
-	column3.Append("inception")
-	column3.Append("pulp_fiction")
-	column3.Append("inception")
-	column3.Append("pulp_fiction")
-	column3.Append("inception")
-	column3.Append("ender's_game")
+	column3.setData([]string{"inception", "pulp_fiction", "inception", "pulp_fiction", "inception", "ender's_game"})
 	columns = append(columns, column3)
 
 	column4 := ColumnNumeric{}
-	column4.Append(8)
-	column4.Append(8)
-	column4.Append(7)
-	column4.Append(4)
-	column4.Append(8)
-	column4.Append(8)
+	column4.setData([]int{8, 8, 7, 4, 8, 8})
 	columns = append(columns, column4)
 
 	return columns
