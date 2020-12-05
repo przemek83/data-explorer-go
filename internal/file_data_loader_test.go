@@ -69,7 +69,7 @@ func TestGetColumnTypes(t *testing.T) {
 	loader := NewFileDataLoader(reader)
 	loader.Load()
 	currentColumnTypes := loader.GetColumnTypes()
-	expectedColumnTypes := []ColumnType{String, Integer, String, Integer}
+	expectedColumnTypes := []ColumnType{StringColumn, NumericColumn, StringColumn, NumericColumn}
 	if !reflect.DeepEqual(currentColumnTypes, expectedColumnTypes) {
 		t.Errorf("Wrong column types. Expected %v, got %v", expectedColumnTypes, currentColumnTypes)
 	}
@@ -87,19 +87,19 @@ func prepareData() []Column {
 	column1 := ColumnString{}
 	column1.setData([]string{"tim", "tim", "tamas", "tamas", "dave", "dave"})
 	var columns []Column
-	columns = append(columns, column1)
+	columns = append(columns, &column1)
 
 	column2 := ColumnNumeric{}
 	column2.setData([]int{26, 26, 44, 44, 0, 0})
-	columns = append(columns, column2)
+	columns = append(columns, &column2)
 
 	column3 := ColumnString{}
 	column3.setData([]string{"inception", "pulp_fiction", "inception", "pulp_fiction", "inception", "ender's_game"})
-	columns = append(columns, column3)
+	columns = append(columns, &column3)
 
 	column4 := ColumnNumeric{}
 	column4.setData([]int{8, 8, 7, 4, 8, 8})
-	columns = append(columns, column4)
+	columns = append(columns, &column4)
 
 	return columns
 }
@@ -110,7 +110,14 @@ func TestGetData(t *testing.T) {
 	loader.Load()
 	currentData := loader.GetData()
 	expectedData := prepareData()
-	if !reflect.DeepEqual(currentData, expectedData) {
-		t.Errorf("Wrong data. Expected %v, got %v", expectedData, currentData)
+	if len(currentData) != len(expectedData) {
+		t.Errorf("Wrong data. Expected number of columns %d, got %d", len(expectedData), len(currentData))
+	}
+
+	for i, expectedColumn := range expectedData {
+		currentColumn := currentData[i]
+		if !reflect.DeepEqual(currentColumn, expectedColumn) {
+			t.Errorf("Wrong data in column \"%s\". Expected %v, got %v", loader.GetHeaders()[i], expectedColumn, currentColumn)
+		}
 	}
 }

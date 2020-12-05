@@ -4,10 +4,10 @@ package internal
 type ColumnType int
 
 const (
-	// Integer - Integer column type.
-	Integer ColumnType = iota
-	// String - String column type.
-	String
+	// NumericColumn - NumericColumn column type.
+	NumericColumn ColumnType = iota
+	// StringColumn - StringColumn column type.
+	StringColumn
 	// Unknown - Unknown column type.
 	Unknown
 )
@@ -19,10 +19,10 @@ func (d ColumnType) String() string {
 // ColumnTypeFromString - return ColumnType for given string.
 func ColumnTypeFromString(columnTypeString string) ColumnType {
 	switch columnTypeString {
-	case Integer.String():
-		return Integer
-	case String.String():
-		return String
+	case NumericColumn.String():
+		return NumericColumn
+	case StringColumn.String():
+		return StringColumn
 	}
 	return Unknown
 }

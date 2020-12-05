@@ -7,8 +7,8 @@ func TestColumnTypeFromString(t *testing.T) {
 		typeAsString       string
 		expectedColumnType ColumnType
 	}{
-		{"integer", Integer},
-		{"string", String},
+		{"integer", NumericColumn},
+		{"string", StringColumn},
 		{"", Unknown},
 		{"bla", Unknown},
 	}

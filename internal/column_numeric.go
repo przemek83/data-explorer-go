@@ -1,8 +1,11 @@
 package internal
 
 type ColumnNumeric struct {
-	Column
 	data []int
+}
+
+func (column *ColumnNumeric) GetType() ColumnType {
+	return NumericColumn
 }
 
 func (column *ColumnNumeric) Append(value int) {

@@ -1,8 +1,11 @@
 package internal
 
 type ColumnString struct {
-	Column
 	data []string
+}
+
+func (column *ColumnString) GetType() ColumnType {
+	return StringColumn
 }
 
 func (column *ColumnString) Append(value string) {
