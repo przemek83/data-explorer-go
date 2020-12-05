@@ -55,7 +55,7 @@ func (loader *FileDataLoader) loadedDataOK() bool {
 			return false
 		}
 	}
-	return true
+	return len(loader.headers) > 0 && len(loader.headers) == len(loader.columnTypes)
 }
 
 func (loader *FileDataLoader) initializeData(columnTypes []ColumnType) bool {
