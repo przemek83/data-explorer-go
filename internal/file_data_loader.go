@@ -25,7 +25,7 @@ func NewFileDataLoader(reader *bufio.Reader) *FileDataLoader {
 func (loader *FileDataLoader) Load() bool {
 	for {
 		line, err := loader.reader.ReadString('\n')
-		if err != nil && err != io.EOF {
+		if (err != nil && err != io.EOF) || len(line) == 0 {
 			break
 		}
 		line = strings.TrimSuffix(line, "\n")
@@ -46,6 +46,15 @@ func (loader *FileDataLoader) Load() bool {
 		}
 	}
 
+	return loader.loadedDataOK()
+}
+
+func (loader *FileDataLoader) loadedDataOK() bool {
+	for _, columnType := range loader.columnTypes {
+		if columnType == Unknown {
+			return false
+		}
+	}
 	return true
 }
 
