@@ -19,3 +19,13 @@ func TestColumnStringGet(t *testing.T) {
 		}
 	}
 }
+
+func TestNumericColumnAppend(t *testing.T) {
+	values := []string{"a", "b", "c", "d"}
+	column := ColumnString{values}
+	expectedValue := "j"
+	column.Append(expectedValue)
+	if currentValue := column.Get(len(values)); currentValue != expectedValue {
+		t.Errorf("Wrong value returned, got %v, want %v", currentValue, expectedValue)
+	}
+}
