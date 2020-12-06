@@ -37,9 +37,10 @@ func (loader *FileDataLoader) Load() bool {
 		}
 		if len(loader.columnTypes) == 0 {
 			loader.loadColumnTypes(line)
-			if !loader.initializeData(loader.columnTypes) {
+			if !loader.columnTypesValid() {
 				return false
 			}
+			loader.initializeData(loader.columnTypes)
 			continue
 		}
 
@@ -51,27 +52,28 @@ func (loader *FileDataLoader) Load() bool {
 	return loader.loadedDataOK()
 }
 
-func (loader *FileDataLoader) loadedDataOK() bool {
+func (loader *FileDataLoader) columnTypesValid() bool {
 	for _, columnType := range loader.columnTypes {
 		if columnType == Unknown {
 			return false
 		}
 	}
+	return true
+}
+
+func (loader *FileDataLoader) loadedDataOK() bool {
 	return len(loader.headers) > 0 && len(loader.headers) == len(loader.columnTypes)
 }
 
-func (loader *FileDataLoader) initializeData(columnTypes []ColumnType) bool {
+func (loader *FileDataLoader) initializeData(columnTypes []ColumnType) {
 	for _, columnType := range columnTypes {
 		switch columnType {
 		case NumericColumn:
 			loader.data = append(loader.data, new(ColumnNumeric))
 		case StringColumn:
 			loader.data = append(loader.data, new(ColumnString))
-		default:
-			return false
 		}
 	}
-	return true
 }
 
 func (loader *FileDataLoader) appendDataLine(line string) bool {
@@ -88,8 +90,6 @@ func (loader *FileDataLoader) appendDataLine(line string) bool {
 		case StringColumn:
 			columnString, _ := loader.data[i].(*ColumnString)
 			columnString.Append(values[i])
-		default:
-			return false
 		}
 	}
 	return true
