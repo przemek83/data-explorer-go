@@ -14,6 +14,11 @@ func MakeDataset(loader DataLoader) (bool, Dataset) {
 }
 
 func (dataset *Dataset) ColumnNameToID(name string) (bool, int) {
+	for i, currentName := range dataset.headers {
+		if currentName == name {
+			return true, i
+		}
+	}
 	return false, -1
 }
 
