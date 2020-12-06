@@ -25,6 +25,6 @@ func (dataset *Dataset) GetColumnType() (bool, ColumnType) {
 	return false, Unknown
 }
 
-func (dataset *Dataset) GetData(columnID int) (bool, []string) {
-	return false, []string{}
+func (dataset *Dataset) GetData(columnID int) (bool, []Column) {
+	return false, dataset.data
 }
