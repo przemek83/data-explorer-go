@@ -36,6 +36,6 @@ func (dataset *Dataset) GetColumnType(id int) (bool, ColumnType) {
 }
 
 // GetData - get data as a column object for given index.
-func (dataset *Dataset) GetData(id int) (bool, []Column) {
-	return false, dataset.data
+func (dataset *Dataset) GetData(id int) (bool, Column) {
+	return false, dataset.data[id]
 }
