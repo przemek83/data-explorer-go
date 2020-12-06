@@ -92,3 +92,14 @@ func TestColumnIDToName(t *testing.T) {
 
 	}
 }
+
+func TestColumnIDToNameWrongID(t *testing.T) {
+	headers := []string{"a", "b", "c"}
+	loader := newFileDataLoaderStub(headers, []ColumnType{}, []Column{}, true)
+	_, dataset := MakeDataset(loader)
+	invalidID := len(headers)
+	ok, _ := dataset.ColumnIDToName(invalidID)
+	if ok {
+		t.Errorf("Header with index %d found unexpectedly", invalidID)
+	}
+}
