@@ -49,3 +49,19 @@ func TestMakeDataset(t *testing.T) {
 		})
 	}
 }
+
+func TestColumnNameToIDPositive(t *testing.T) {
+	headers := []string{"a", "b", "c"}
+	loader := newFileDataLoaderStub(headers, []ColumnType{}, []Column{}, true)
+	_, dataset := MakeDataset(loader)
+	for i, header := range headers {
+		ok, gotID := dataset.ColumnNameToID(header)
+		if !ok {
+			t.Errorf("Error finding header named %s", header)
+		}
+		if gotID != i {
+			t.Errorf("Wrong id found for header named %s. Got %d, expected %d", header, gotID, i)
+		}
+
+	}
+}
