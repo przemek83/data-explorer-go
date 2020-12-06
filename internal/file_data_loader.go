@@ -18,10 +18,12 @@ type FileDataLoader struct {
 	data        []Column
 }
 
+// NewFileDataLoader - create new FileDataLoader object.
 func NewFileDataLoader(reader *bufio.Reader) *FileDataLoader {
 	return &FileDataLoader{reader, []string{}, []ColumnType{}, []Column{}}
 }
 
+// Load - load data from reader.
 func (loader *FileDataLoader) Load() bool {
 	for {
 		line, err := loader.reader.ReadString('\n')
@@ -99,14 +101,17 @@ func (loader *FileDataLoader) loadColumnTypes(line string) {
 	}
 }
 
+// GetHeaders - get array of headers.
 func (loader *FileDataLoader) GetHeaders() []string {
 	return loader.headers
 }
 
+// GetColumnTypes - get array of ColumnType.
 func (loader *FileDataLoader) GetColumnTypes() []ColumnType {
 	return loader.columnTypes
 }
 
+// GetData - get data as array of columns.
 func (loader *FileDataLoader) GetData() []Column {
 	return loader.data
 }
