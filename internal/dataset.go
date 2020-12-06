@@ -13,18 +13,18 @@ func MakeDataset(loader DataLoader) (bool, Dataset) {
 	return true, Dataset{loader.GetHeaders(), loader.GetColumnTypes(), loader.GetData()}
 }
 
-func (dataset *Dataset) ColumnNameToID() (bool, int) {
+func (dataset *Dataset) ColumnNameToID(name string) (bool, int) {
 	return false, -1
 }
 
-func (dataset *Dataset) ColumnIDToName() (bool, string) {
+func (dataset *Dataset) ColumnIDToName(id int) (bool, string) {
 	return false, ""
 }
 
-func (dataset *Dataset) GetColumnType() (bool, ColumnType) {
+func (dataset *Dataset) GetColumnType(id int) (bool, ColumnType) {
 	return false, Unknown
 }
 
-func (dataset *Dataset) GetData(columnID int) (bool, []Column) {
+func (dataset *Dataset) GetData(id int) (bool, []Column) {
 	return false, dataset.data
 }
