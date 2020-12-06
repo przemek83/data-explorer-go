@@ -65,3 +65,14 @@ func TestColumnNameToIDPositive(t *testing.T) {
 
 	}
 }
+
+func TestColumnNameToIDNegative(t *testing.T) {
+	headers := []string{"a", "b", "c"}
+	loader := newFileDataLoaderStub(headers, []ColumnType{}, []Column{}, true)
+	_, dataset := MakeDataset(loader)
+	wrongHeaderName := "d"
+	ok, _ := dataset.ColumnNameToID(wrongHeaderName)
+	if ok {
+		t.Errorf("Header named %s found unexpectedly", wrongHeaderName)
+	}
+}
