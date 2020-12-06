@@ -10,7 +10,7 @@ func MakeDataset(loader DataLoader) (bool, Dataset) {
 	if !loader.Load() {
 		return false, Dataset{}
 	}
-	return false, Dataset{loader.GetHeaders(), loader.GetColumnTypes(), loader.GetData()}
+	return true, Dataset{loader.GetHeaders(), loader.GetColumnTypes(), loader.GetData()}
 }
 
 func (dataset *Dataset) ColumnNameToID() (bool, int) {
