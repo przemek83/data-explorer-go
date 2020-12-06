@@ -1,17 +1,16 @@
 package internal
 
 type Dataset struct {
-	loader      FileDataLoader
 	headers     []string
 	columnTypes []ColumnType
+	data        []Column
 }
 
-func MakeDataset(loader FileDataLoader) Dataset {
-	return Dataset{loader, []string{}, []ColumnType{}}
-}
-
-func (dataset *Dataset) Initialize() bool {
-	return false
+func MakeDataset(loader DataLoader) (bool, Dataset) {
+	if !loader.Load() {
+		return false, Dataset{}
+	}
+	return false, Dataset{loader.GetHeaders(), loader.GetColumnTypes(), loader.GetData()}
 }
 
 func (dataset *Dataset) ColumnNameToID() (bool, int) {
