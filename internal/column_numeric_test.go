@@ -2,7 +2,7 @@ package internal
 
 import "testing"
 
-func TestGetType(t *testing.T) {
+func TestNumericColumnGetType(t *testing.T) {
 	column := ColumnNumeric{}
 	expectedType := NumericColumn
 	if currentType := column.GetType(); currentType != expectedType {
@@ -10,7 +10,7 @@ func TestGetType(t *testing.T) {
 	}
 }
 
-func TestGet(t *testing.T) {
+func TestNumericColumnGet(t *testing.T) {
 	expectedValues := []int{1, 2, 3, 4}
 	column := ColumnNumeric{expectedValues}
 	for i, expectedValue := range expectedValues {
