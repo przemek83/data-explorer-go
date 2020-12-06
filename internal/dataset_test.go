@@ -76,3 +76,19 @@ func TestColumnNameToIDNegative(t *testing.T) {
 		t.Errorf("Header named %s found unexpectedly", wrongHeaderName)
 	}
 }
+
+func TestColumnIDToName(t *testing.T) {
+	headers := []string{"a", "b", "c"}
+	loader := newFileDataLoaderStub(headers, []ColumnType{}, []Column{}, true)
+	_, dataset := MakeDataset(loader)
+	for i, header := range headers {
+		ok, gotName := dataset.ColumnIDToName(i)
+		if !ok {
+			t.Errorf("Error finding header with id %d", i)
+		}
+		if gotName != header {
+			t.Errorf("Wrong header name found for given id = %d. Got %s, expected %s", i, gotName, header)
+		}
+
+	}
+}
