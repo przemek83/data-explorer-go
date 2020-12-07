@@ -115,3 +115,19 @@ func TestColumnIDToNameWrongID(t *testing.T) {
 		})
 	}
 }
+
+func TestDatasetGetColumnType(t *testing.T) {
+	columnTypes := []ColumnType{NumericColumn, StringColumn, NumericColumn}
+	loader := newFileDataLoaderStub([]string{}, columnTypes, []Column{}, true)
+	_, dataset := MakeDataset(loader)
+	for i, expectedColumnType := range columnTypes {
+		ok, gotColumnType := dataset.GetColumnType(i)
+		if !ok {
+			t.Errorf("Error finding column type with id %d", i)
+		}
+		if gotColumnType != expectedColumnType {
+			t.Errorf("Wrong header name found for given id = %d. Got %s, expected %s", i, gotColumnType, expectedColumnType)
+		}
+
+	}
+}
