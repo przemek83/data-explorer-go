@@ -35,7 +35,10 @@ func (dataset *Dataset) ColumnIDToName(id int) (bool, string) {
 
 // GetColumnType - get type of column for given index.
 func (dataset *Dataset) GetColumnType(id int) (bool, ColumnType) {
-	return false, Unknown
+	if id >= len(dataset.columnTypes) || id < 0 {
+		return false, Unknown
+	}
+	return true, dataset.columnTypes[id]
 }
 
 // GetData - get data as a column object for given index.
