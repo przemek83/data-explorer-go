@@ -131,3 +131,26 @@ func TestDatasetGetColumnType(t *testing.T) {
 
 	}
 }
+
+func TestDatasetGetColumnTypeWrongID(t *testing.T) {
+	columnTypes := []ColumnType{NumericColumn, StringColumn, NumericColumn}
+
+	tests := []struct {
+		name    string
+		wrongID int
+	}{
+		{"Id too big", len(columnTypes)},
+		{"Id negative", -1},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			loader := newFileDataLoaderStub([]string{}, columnTypes, []Column{}, true)
+			_, dataset := MakeDataset(loader)
+			ok, _ := dataset.GetColumnType(tt.wrongID)
+			if ok {
+				t.Errorf("Column type with index %d unexpectedly found", tt.wrongID)
+			}
+		})
+	}
+}
