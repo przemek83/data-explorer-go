@@ -27,7 +27,10 @@ func (dataset *Dataset) ColumnNameToID(name string) (bool, int) {
 
 // ColumnIDToName - get header name for given column index.
 func (dataset *Dataset) ColumnIDToName(id int) (bool, string) {
-	return false, ""
+	if id >= len(dataset.headers) || id < 0 {
+		return false, ""
+	}
+	return true, dataset.headers[id]
 }
 
 // GetColumnType - get type of column for given index.
