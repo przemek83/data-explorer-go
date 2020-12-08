@@ -170,3 +170,26 @@ func TestDatasetGetData(t *testing.T) {
 		}
 	}
 }
+
+func TestDatasetGetDataWrongColumnId(t *testing.T) {
+	data := prepareData()
+
+	tests := []struct {
+		name    string
+		wrongID int
+	}{
+		{"Id too big", len(data)},
+		{"Id negative", -1},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			loader := newFileDataLoaderStub([]string{}, []ColumnType{}, data, true)
+			_, dataset := MakeDataset(loader)
+			ok, _ := dataset.GetData(tt.wrongID)
+			if ok {
+				t.Errorf("Column with index %d unexpectedly found", tt.wrongID)
+			}
+		})
+	}
+}
