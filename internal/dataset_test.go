@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -152,5 +153,20 @@ func TestDatasetGetColumnTypeWrongID(t *testing.T) {
 				t.Errorf("Column type with index %d unexpectedly found", tt.wrongID)
 			}
 		})
+	}
+}
+
+func TestDatasetGetData(t *testing.T) {
+	data := prepareData()
+	loader := newFileDataLoaderStub([]string{}, []ColumnType{}, data, true)
+	_, dataset := MakeDataset(loader)
+	for i, expectedColumn := range data {
+		ok, gotColumn := dataset.GetData(i)
+		if !ok {
+			t.Errorf("Error getting column type with id %d", i)
+		}
+		if !reflect.DeepEqual(gotColumn, expectedColumn) {
+			t.Errorf("Wrong data in column \"%s\". Expected %v, got %v", loader.GetHeaders()[i], expectedColumn, gotColumn)
+		}
 	}
 }
