@@ -19,12 +19,11 @@ func programUsage() {
 	fmt.Println("\tgrouping    - Grouping by column")
 }
 
-func parseArgs(args []string) []string {
-	if len(args) != 4 {
-		programUsage()
-		os.Exit(1)
+func parseArgs(args []string) (bool, []string) {
+	if len(args) != 5 {
+		return false, []string{}
 	}
-	return args
+	return true, args[1:]
 }
 
 func loadData(fileName string) {
@@ -46,7 +45,11 @@ func loadData(fileName string) {
 
 func main() {
 	flag.Usage = programUsage
-	params := parseArgs(os.Args[1:])
+	ok, params := parseArgs(os.Args)
+	if !ok {
+		programUsage()
+		os.Exit(1)
+	}
 	fmt.Println("Executing program with params", params)
 	loadData(params[0])
 }
