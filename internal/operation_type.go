@@ -10,6 +10,8 @@ const (
 	Minimum
 	// Maximum - Calculate maximum.
 	Maximum
+	// UnknownOperation - Unknown operation.
+	UnknownOperation
 )
 
 func (d OperationType) String() string {
@@ -23,6 +25,8 @@ func OperationTypeFromString(operationTypeString string) OperationType {
 		return Average
 	case Minimum.String():
 		return Minimum
+	case Maximum.String():
+		return Maximum
 	}
-	return Maximum
+	return UnknownOperation
 }
