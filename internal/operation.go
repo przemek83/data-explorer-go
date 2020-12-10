@@ -1,11 +1,11 @@
 package internal
 
-// OperationType - Operation type.
-type OperationType int
+// Operation - Operation type.
+type Operation int
 
 const (
 	// Average - Calculate average.
-	Average OperationType = iota
+	Average Operation = iota
 	// Minimum - Calculate minimum.
 	Minimum
 	// Maximum - Calculate maximum.
@@ -14,13 +14,13 @@ const (
 	UnknownOperation
 )
 
-func (d OperationType) String() string {
+func (d Operation) String() string {
 	return [...]string{"avg", "min", "max"}[d]
 }
 
-// OperationTypeFromString - return OperationType for given string.
-func OperationTypeFromString(operationTypeString string) OperationType {
-	switch operationTypeString {
+// OperationFromString - return Operation for given string.
+func OperationFromString(operationString string) Operation {
+	switch operationString {
 	case Average.String():
 		return Average
 	case Minimum.String():
