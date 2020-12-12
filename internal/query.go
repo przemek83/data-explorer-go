@@ -10,11 +10,6 @@ type Query struct {
 }
 
 // MakeQuery  - create query.
-func MakeQuery(args []string) (Query, error) {
+func MakeQuery(args []string, dataset *Dataset) (Query, error) {
 	return Query{}, errors.New("Not implemented")
-}
-
-// ColumnsAreValid - check if columns on input are columns in dataset.
-func (query *Query) ColumnsAreValid(dataset *Dataset) error {
-	return errors.New("Not implemented")
 }
