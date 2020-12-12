@@ -39,28 +39,28 @@ func TestMakeQuery(t *testing.T) {
 			[]string{"a", "b", "c"},
 			[]string{"ble", "a", "b"},
 			true,
-			Query{Average, 0, 1},
+			Query{},
 		},
 		{
 			"Args list too long, avg operation, proper columns.",
 			[]string{"a", "b", "c", "d"},
 			[]string{"avg", "a", "b"},
 			true,
-			Query{Average, 0, 1},
+			Query{},
 		},
 		{
 			"Args list too short, avg operation, proper columns.",
 			[]string{"a", "b"},
 			[]string{"avg", "a", "b"},
 			true,
-			Query{Average, 0, 1},
+			Query{},
 		},
 		{
 			"Proper number of args, avg operation, wrong columns.",
 			[]string{"a", "b", "c"},
 			[]string{"avg", "a", "d"},
 			true,
-			Query{Average, 0, 1},
+			Query{},
 		},
 	}
 
