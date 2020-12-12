@@ -1,5 +1,7 @@
 package internal
 
+import "errors"
+
 // Query - query to be execututed.
 type Query struct {
 	operation         Operation
@@ -8,11 +10,11 @@ type Query struct {
 }
 
 // MakeQuery  - create query.
-func MakeQuery(args []string) (bool, Query) {
-	return false, Query{}
+func MakeQuery(args []string) (Query, error) {
+	return Query{}, errors.New("Not implemented")
 }
 
 // ColumnsAreValid - check if columns on input are columns in dataset.
-func (query *Query) ColumnsAreValid(dataset *Dataset) bool {
-	return false
+func (query *Query) ColumnsAreValid(dataset *Dataset) error {
+	return errors.New("Not implemented")
 }
