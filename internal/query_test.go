@@ -56,7 +56,14 @@ func TestMakeQuery(t *testing.T) {
 			Query{},
 		},
 		{
-			"Proper number of args, avg operation, wrong columns.",
+			"Proper number of args, avg operation, wrong aggregate column.",
+			[]string{"a", "b", "c"},
+			[]string{"avg", "d", "a"},
+			true,
+			Query{},
+		},
+		{
+			"Proper number of args, avg operation, wrong grouping column.",
 			[]string{"a", "b", "c"},
 			[]string{"avg", "a", "d"},
 			true,
