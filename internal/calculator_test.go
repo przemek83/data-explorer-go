@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestCalculator_Execute(t *testing.T) {
+func TestCalculatorExecute(t *testing.T) {
 	const firstName int = 0
 	const age int = 1
 	const movieName int = 2
