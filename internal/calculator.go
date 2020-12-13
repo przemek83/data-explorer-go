@@ -88,14 +88,14 @@ func (calculator *Calculator) computeAvg(aggregationColumn *ColumnNumeric, group
 }
 
 func (calculator *Calculator) computeMax(aggregationColumn *ColumnNumeric, groupingColumn *ColumnString) map[string]float32 {
-	greater := func(i, j int) bool {
+	greater := func(i, j float32) bool {
 		return i > j
 	}
 	return calculator.computeExtreme(aggregationColumn, groupingColumn, greater)
 }
 
 func (calculator *Calculator) computeMin(aggregationColumn *ColumnNumeric, groupingColumn *ColumnString) map[string]float32 {
-	lower := func(i, j int) bool {
+	lower := func(i, j float32) bool {
 		return i < j
 	}
 	return calculator.computeExtreme(aggregationColumn, groupingColumn, lower)
@@ -103,6 +103,19 @@ func (calculator *Calculator) computeMin(aggregationColumn *ColumnNumeric, group
 
 func (calculator *Calculator) computeExtreme(aggregationColumn *ColumnNumeric,
 	groupingColumn *ColumnString,
-	condition func(left, right int) bool) map[string]float32 {
-	return map[string]float32{}
+	condition func(left, right float32) bool) map[string]float32 {
+	results := map[string]float32{}
+	for i := 0; i < aggregationColumn.GetSize(); i++ {
+		aggregation := float32(aggregationColumn.Get(i))
+		grouping := groupingColumn.Get(i)
+		current, exists := results[grouping]
+		if !exists {
+			results[grouping] = aggregation
+			continue
+		}
+		if condition(aggregation, current) {
+			results[grouping] = aggregation
+		}
+	}
+	return results
 }
