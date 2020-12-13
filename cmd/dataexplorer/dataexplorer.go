@@ -46,6 +46,10 @@ func main() {
 		os.Exit(1)
 	}
 	calculator := internal.MakeCalculator(dataset)
-	results := calculator.Execute(query)
+	results, err := calculator.Execute(query)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 	fmt.Printf("Results:\n%v\n", results)
 }

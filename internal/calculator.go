@@ -1,5 +1,10 @@
 package internal
 
+import (
+	"errors"
+	"fmt"
+)
+
 // Calculator - Calculates results according to query.
 type Calculator struct {
 	dataset Dataset
@@ -11,16 +16,26 @@ func MakeCalculator(dataset Dataset) Calculator {
 }
 
 // Execute - Execute given query on dataset.
-func (calculator *Calculator) Execute(query Query) map[string]float32 {
+func (calculator *Calculator) Execute(query Query) (map[string]float32, error) {
+	ok, aggregationColumn := calculator.dataset.GetData(query.aggregateColumnID)
+	if !ok {
+		errorString := fmt.Sprintf("Aggregate column with id %d not found", query.aggregateColumnID)
+		return map[string]float32{}, errors.New(errorString)
+	}
+	ok, groupingColumn := calculator.dataset.GetData(query.groupingColumnID)
+	if !ok {
+		errorString := fmt.Sprintf("Grouping column with id %d not found", query.groupingColumnID)
+		return map[string]float32{}, errors.New(errorString)
+	}
 	switch query.operation {
 	case Average:
-		return map[string]float32{}
+		return calculator.computeAvg(aggregationColumn, groupingColumn), nil
 	case Maximum:
-		return map[string]float32{}
+		return calculator.computeMax(aggregationColumn, groupingColumn), nil
 	case Minimum:
-		return map[string]float32{}
+		return calculator.computeMin(aggregationColumn, groupingColumn), nil
 	}
-	return map[string]float32{}
+	return map[string]float32{}, errors.New("Operation unknown")
 }
 
 func (calculator *Calculator) computeAvg(aggregationColumn Column, groupingColumn Column) map[string]float32 {

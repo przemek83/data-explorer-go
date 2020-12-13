@@ -70,7 +70,7 @@ func TestCalculatorExecute(t *testing.T) {
 	calculator := MakeCalculator(dataset)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := calculator.Execute(tt.query); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := calculator.Execute(tt.query); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Calculator.Execute() = %v, want %v", got, tt.want)
 			}
 		})
