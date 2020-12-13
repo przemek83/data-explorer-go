@@ -18,13 +18,6 @@ func programUsage() {
 	fmt.Println("\tgrouping    - Grouping by column")
 }
 
-func parseArgs(args []string) (bool, []string) {
-	if len(args) != 5 {
-		return false, []string{}
-	}
-	return true, args[1:]
-}
-
 func createDataset(fileName string) internal.Dataset {
 	begin := time.Now()
 
@@ -39,16 +32,17 @@ func createDataset(fileName string) internal.Dataset {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("Data loaded in %.6fs", end.Sub(begin).Seconds())
+	fmt.Printf("Data loaded in %.6fs\n", end.Sub(begin).Seconds())
 	return dataset
 }
 
 func main() {
-	ok, params := parseArgs(os.Args)
-	if !ok {
+	fmt.Println("Executing program with params", os.Args)
+	dataset := createDataset(os.Args[1])
+	_, err := internal.MakeQuery(os.Args[2:], &dataset)
+	if err != nil {
+		fmt.Println(err)
 		programUsage()
 		os.Exit(1)
 	}
-	fmt.Println("Executing program with params", params)
-	createDataset(params[0])
 }
