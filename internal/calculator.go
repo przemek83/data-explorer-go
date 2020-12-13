@@ -21,15 +21,8 @@ func (calculator *Calculator) Execute(query Query) (map[string]float32, error) {
 		return map[string]float32{}, err
 	}
 
-	aggregationColumn, err := calculator.getAggregationColumn(query)
-	if err != nil {
-		return map[string]float32{}, err
-	}
-
-	groupingColumn, err := calculator.getGroupingColumn(query)
-	if err != nil {
-		return map[string]float32{}, err
-	}
+	aggregationColumn := calculator.getAggregationColumn(query)
+	groupingColumn := calculator.getGroupingColumn(query)
 
 	switch query.operation {
 	case Average:
@@ -42,30 +35,16 @@ func (calculator *Calculator) Execute(query Query) (map[string]float32, error) {
 	return map[string]float32{}, errors.New("Operation unknown")
 }
 
-func (calculator *Calculator) getAggregationColumn(query Query) (*ColumnNumeric, error) {
-	ok, aggregationColumn := calculator.dataset.GetData(query.aggregateColumnID)
-	if !ok {
-		errorString := fmt.Sprintf("Aggregate column with id %d not found", query.aggregateColumnID)
-		return nil, errors.New(errorString)
-	}
-	columnNumeric, valid := aggregationColumn.(*ColumnNumeric)
-	if !valid {
-		return nil, errors.New("Cast to ColumnNumeric failed")
-	}
-	return columnNumeric, nil
+func (calculator *Calculator) getAggregationColumn(query Query) *ColumnNumeric {
+	_, aggregationColumn := calculator.dataset.GetData(query.aggregateColumnID)
+	columnNumeric, _ := aggregationColumn.(*ColumnNumeric)
+	return columnNumeric
 }
 
-func (calculator *Calculator) getGroupingColumn(query Query) (*ColumnString, error) {
-	ok, groupingColumn := calculator.dataset.GetData(query.groupingColumnID)
-	if !ok {
-		errorString := fmt.Sprintf("Grouping column with id %d not found", query.groupingColumnID)
-		return nil, errors.New(errorString)
-	}
-	columnString, valid := groupingColumn.(*ColumnString)
-	if !valid {
-		return nil, errors.New("Cast to ColumnString failed")
-	}
-	return columnString, nil
+func (calculator *Calculator) getGroupingColumn(query Query) *ColumnString {
+	_, groupingColumn := calculator.dataset.GetData(query.groupingColumnID)
+	columnString, _ := groupingColumn.(*ColumnString)
+	return columnString
 }
 
 func (calculator *Calculator) checkColumnTypes(query Query) error {
