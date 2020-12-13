@@ -10,6 +10,11 @@ func (column *ColumnNumeric) GetType() ColumnType {
 	return NumericColumn
 }
 
+// GetSize - Get number of elements in column.
+func (column *ColumnNumeric) GetSize() int {
+	return len(column.data)
+}
+
 // Append - append value to column end.
 func (column *ColumnNumeric) Append(value int) {
 	column.data = append(column.data, value)
