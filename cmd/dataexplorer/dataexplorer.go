@@ -37,7 +37,6 @@ func createDataset(fileName string) internal.Dataset {
 }
 
 func main() {
-	fmt.Println("Executing program with params", os.Args[1:])
 	dataset := createDataset(os.Args[1])
 	query, err := internal.MakeQuery(os.Args[2:], &dataset)
 	if err != nil {
