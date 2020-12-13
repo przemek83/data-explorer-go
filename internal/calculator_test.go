@@ -58,13 +58,13 @@ func TestCalculatorExecute(t *testing.T) {
 			"Average age grouped by movie name",
 			Query{Average, age, movieName},
 			false,
-			map[string]float32{"inception": 70 / 3, "pulp_fiction": 35, "ender's_game": 0},
+			map[string]float32{"inception": 23.333334, "pulp_fiction": 35, "ender's_game": 0},
 		},
 		{
 			"Average score grouped by movie name",
 			Query{Average, score, movieName},
 			false,
-			map[string]float32{"inception": 7.67, "pulp_fiction": 6, "ender's_game": 8},
+			map[string]float32{"inception": 7.6666665, "pulp_fiction": 6, "ender's_game": 8},
 		},
 		{
 			"Average score grouped by first name",

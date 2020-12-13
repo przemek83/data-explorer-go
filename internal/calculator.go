@@ -82,8 +82,31 @@ func (calculator *Calculator) checkColumnTypes(query Query) error {
 	return nil
 }
 
+type pair struct {
+	count, sum float32
+}
+
 func (calculator *Calculator) computeAvg(aggregationColumn *ColumnNumeric, groupingColumn *ColumnString) map[string]float32 {
+	sums := calculator.computeSum(aggregationColumn, groupingColumn)
 	results := map[string]float32{}
+	for grouping, values := range sums {
+		results[grouping] = values.sum / values.count
+	}
+	return results
+}
+
+func (calculator *Calculator) computeSum(aggregationColumn *ColumnNumeric, groupingColumn *ColumnString) map[string]pair {
+	results := map[string]pair{}
+	for i := 0; i < aggregationColumn.GetSize(); i++ {
+		value := float32(aggregationColumn.Get(i))
+		key := groupingColumn.Get(i)
+		currentValue, exists := results[key]
+		if exists {
+			results[key] = pair{currentValue.count + 1, currentValue.sum + value}
+		} else {
+			results[key] = pair{1, value}
+		}
+	}
 	return results
 }
 
