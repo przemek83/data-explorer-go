@@ -9,3 +9,8 @@ type Calculator struct {
 func MakeCalculator(dataset Dataset) Calculator {
 	return Calculator{dataset}
 }
+
+// Execute - Execute given query on dataset.
+func (Calculator *Dataset) Execute(query Query) map[string]float32 {
+	return map[string]float32{}
+}
