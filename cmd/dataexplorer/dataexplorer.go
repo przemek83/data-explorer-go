@@ -44,10 +44,13 @@ func main() {
 		os.Exit(1)
 	}
 	calculator := internal.MakeCalculator(dataset)
+	begin := time.Now()
 	results, err := calculator.Execute(query)
+	end := time.Now()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+	fmt.Printf("Operation completed in %.6fs\n", end.Sub(begin).Seconds())
 	fmt.Printf("Results:\n%v\n", results)
 }
