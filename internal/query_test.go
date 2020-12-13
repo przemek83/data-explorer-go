@@ -74,7 +74,7 @@ func TestMakeQuery(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			loader := newFileDataLoaderStub(tc.headers, []ColumnType{}, []Column{}, true)
-			_, dataset := MakeDataset(loader)
+			dataset, _ := MakeDataset(loader)
 			gotQuery, gotErr := MakeQuery(tc.args, &dataset)
 			if tc.wantError && gotErr == nil {
 				t.Errorf("Error unexpectedly not raised.")

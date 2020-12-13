@@ -1,5 +1,9 @@
 package internal
 
+import (
+	"errors"
+)
+
 // Dataset - struct containing all loaded data with accompanying methods.
 type Dataset struct {
 	headers     []string
@@ -8,11 +12,11 @@ type Dataset struct {
 }
 
 // MakeDataset - create dataset object.
-func MakeDataset(loader DataLoader) (bool, Dataset) {
+func MakeDataset(loader DataLoader) (Dataset, error) {
 	if !loader.Load() {
-		return false, Dataset{}
+		return Dataset{}, errors.New("Cannot load data")
 	}
-	return true, Dataset{loader.GetHeaders(), loader.GetColumnTypes(), loader.GetData()}
+	return Dataset{loader.GetHeaders(), loader.GetColumnTypes(), loader.GetData()}, nil
 }
 
 // ColumnNameToID - convert column name given as string to id.

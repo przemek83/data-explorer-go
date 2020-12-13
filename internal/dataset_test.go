@@ -36,7 +36,7 @@ func TestMakeDataset(t *testing.T) {
 	tests := []struct {
 		name       string
 		dataLoader DataLoader
-		want       bool
+		wantError  bool
 	}{
 		{"Loading OK", newFileDataLoaderStub([]string{}, []ColumnType{}, []Column{}, true), true},
 		{"Loading not OK", newFileDataLoaderStub([]string{}, []ColumnType{}, []Column{}, false), false},
@@ -44,8 +44,8 @@ func TestMakeDataset(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got, _ := MakeDataset(tt.dataLoader); got != tt.want {
-				t.Errorf("MakeDataset returned %v, want %v", got, tt.want)
+			if got, err := MakeDataset(tt.dataLoader); (err == nil) != tt.wantError {
+				t.Errorf("MakeDataset returned %v, want %v", got, tt.wantError)
 			}
 		})
 	}
@@ -54,7 +54,7 @@ func TestMakeDataset(t *testing.T) {
 func TestColumnNameToIDPositive(t *testing.T) {
 	headers := []string{"a", "b", "c"}
 	loader := newFileDataLoaderStub(headers, []ColumnType{}, []Column{}, true)
-	_, dataset := MakeDataset(loader)
+	dataset, _ := MakeDataset(loader)
 	for i, header := range headers {
 		ok, gotID := dataset.ColumnNameToID(header)
 		if !ok {
@@ -70,7 +70,7 @@ func TestColumnNameToIDPositive(t *testing.T) {
 func TestColumnNameToIDNegative(t *testing.T) {
 	headers := []string{"a", "b", "c"}
 	loader := newFileDataLoaderStub(headers, []ColumnType{}, []Column{}, true)
-	_, dataset := MakeDataset(loader)
+	dataset, _ := MakeDataset(loader)
 	wrongHeaderName := "d"
 	ok, _ := dataset.ColumnNameToID(wrongHeaderName)
 	if ok {
@@ -81,7 +81,7 @@ func TestColumnNameToIDNegative(t *testing.T) {
 func TestColumnIDToName(t *testing.T) {
 	headers := []string{"a", "b", "c"}
 	loader := newFileDataLoaderStub(headers, []ColumnType{}, []Column{}, true)
-	_, dataset := MakeDataset(loader)
+	dataset, _ := MakeDataset(loader)
 	for i, header := range headers {
 		ok, gotName := dataset.ColumnIDToName(i)
 		if !ok {
@@ -108,7 +108,7 @@ func TestColumnIDToNameWrongID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			loader := newFileDataLoaderStub(headers, []ColumnType{}, []Column{}, true)
-			_, dataset := MakeDataset(loader)
+			dataset, _ := MakeDataset(loader)
 			ok, _ := dataset.ColumnIDToName(tt.wrongID)
 			if ok {
 				t.Errorf("Header with index %d found unexpectedly", tt.wrongID)
@@ -120,7 +120,7 @@ func TestColumnIDToNameWrongID(t *testing.T) {
 func TestDatasetGetColumnType(t *testing.T) {
 	columnTypes := []ColumnType{NumericColumn, StringColumn, NumericColumn}
 	loader := newFileDataLoaderStub([]string{}, columnTypes, []Column{}, true)
-	_, dataset := MakeDataset(loader)
+	dataset, _ := MakeDataset(loader)
 	for i, expectedColumnType := range columnTypes {
 		ok, gotColumnType := dataset.GetColumnType(i)
 		if !ok {
@@ -147,7 +147,7 @@ func TestDatasetGetColumnTypeWrongID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			loader := newFileDataLoaderStub([]string{}, columnTypes, []Column{}, true)
-			_, dataset := MakeDataset(loader)
+			dataset, _ := MakeDataset(loader)
 			ok, _ := dataset.GetColumnType(tt.wrongID)
 			if ok {
 				t.Errorf("Column type with index %d unexpectedly found", tt.wrongID)
@@ -159,7 +159,7 @@ func TestDatasetGetColumnTypeWrongID(t *testing.T) {
 func TestDatasetGetData(t *testing.T) {
 	data := prepareData()
 	loader := newFileDataLoaderStub([]string{}, []ColumnType{}, data, true)
-	_, dataset := MakeDataset(loader)
+	dataset, _ := MakeDataset(loader)
 	for i, expectedColumn := range data {
 		ok, gotColumn := dataset.GetData(i)
 		if !ok {
@@ -185,7 +185,7 @@ func TestDatasetGetDataWrongColumnId(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			loader := newFileDataLoaderStub([]string{}, []ColumnType{}, data, true)
-			_, dataset := MakeDataset(loader)
+			dataset, _ := MakeDataset(loader)
 			ok, _ := dataset.GetData(tt.wrongID)
 			if ok {
 				t.Errorf("Column with index %d unexpectedly found", tt.wrongID)

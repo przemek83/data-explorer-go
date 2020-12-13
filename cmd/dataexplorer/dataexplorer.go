@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"dataexplorer/internal"
-	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -26,7 +25,7 @@ func parseArgs(args []string) (bool, []string) {
 	return true, args[1:]
 }
 
-func loadData(fileName string) {
+func createDataset(fileName string) internal.Dataset {
 	begin := time.Now()
 
 	file, err := os.Open(fileName)
@@ -34,22 +33,22 @@ func loadData(fileName string) {
 	if err != nil {
 		panic(err)
 	}
-
 	var loader internal.DataLoader = internal.NewFileDataLoader(bufio.NewReader(file))
-	ok, _ := internal.MakeDataset(loader)
-	if !ok {
-		end := time.Now()
-		fmt.Printf("Data loaded in %.6fs", end.Sub(begin).Seconds())
+	dataset, err := internal.MakeDataset(loader)
+	end := time.Now()
+	if err != nil {
+		panic(err)
 	}
+	fmt.Printf("Data loaded in %.6fs", end.Sub(begin).Seconds())
+	return dataset
 }
 
 func main() {
-	flag.Usage = programUsage
 	ok, params := parseArgs(os.Args)
 	if !ok {
 		programUsage()
 		os.Exit(1)
 	}
 	fmt.Println("Executing program with params", params)
-	loadData(params[0])
+	createDataset(params[0])
 }
