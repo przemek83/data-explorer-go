@@ -20,7 +20,6 @@ func programUsage() {
 
 func createDataset(fileName string) internal.Dataset {
 	begin := time.Now()
-
 	file, err := os.Open(fileName)
 	defer file.Close()
 	if err != nil {
