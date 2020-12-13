@@ -17,25 +17,18 @@ func MakeCalculator(dataset Dataset) Calculator {
 
 // Execute - Execute given query on dataset.
 func (calculator *Calculator) Execute(query Query) (map[string]float32, error) {
-	ok, err := calculator.columnTypesValid(query)
-	if !ok {
-		errorString := fmt.Sprintf("Grouping column with id %d not found", query.groupingColumnID)
-		return map[string]float32{}, errors.New(errorString)
+	if err := calculator.checkColumnTypes(query); err != nil {
+		return map[string]float32{}, err
 	}
+
+	aggregationColumn, err := calculator.getAggregationColumn(query)
 	if err != nil {
 		return map[string]float32{}, err
 	}
 
-	ok, aggregationColumn := calculator.dataset.GetData(query.aggregateColumnID)
-	if !ok {
-		errorString := fmt.Sprintf("Aggregate column with id %d not found", query.aggregateColumnID)
-		return map[string]float32{}, errors.New(errorString)
-	}
-
-	ok, groupingColumn := calculator.dataset.GetData(query.groupingColumnID)
-	if !ok {
-		errorString := fmt.Sprintf("Grouping column with id %d not found", query.groupingColumnID)
-		return map[string]float32{}, errors.New(errorString)
+	groupingColumn, err := calculator.getGroupingColumn(query)
+	if err != nil {
+		return map[string]float32{}, err
 	}
 
 	switch query.operation {
@@ -49,41 +42,67 @@ func (calculator *Calculator) Execute(query Query) (map[string]float32, error) {
 	return map[string]float32{}, errors.New("Operation unknown")
 }
 
-func (calculator *Calculator) columnTypesValid(query Query) (bool, error) {
+func (calculator *Calculator) getAggregationColumn(query Query) (*ColumnNumeric, error) {
+	ok, aggregationColumn := calculator.dataset.GetData(query.aggregateColumnID)
+	if !ok {
+		errorString := fmt.Sprintf("Aggregate column with id %d not found", query.aggregateColumnID)
+		return nil, errors.New(errorString)
+	}
+	columnNumeric, valid := aggregationColumn.(*ColumnNumeric)
+	if !valid {
+		return nil, errors.New("Cast to ColumnNumeric failed")
+	}
+	return columnNumeric, nil
+}
+
+func (calculator *Calculator) getGroupingColumn(query Query) (*ColumnString, error) {
+	ok, groupingColumn := calculator.dataset.GetData(query.groupingColumnID)
+	if !ok {
+		errorString := fmt.Sprintf("Grouping column with id %d not found", query.groupingColumnID)
+		return nil, errors.New(errorString)
+	}
+	columnString, valid := groupingColumn.(*ColumnString)
+	if !valid {
+		return nil, errors.New("Cast to ColumnString failed")
+	}
+	return columnString, nil
+}
+
+func (calculator *Calculator) checkColumnTypes(query Query) error {
 	ok, aggregationColumnType := calculator.dataset.GetColumnType(query.aggregateColumnID)
 	if !ok || aggregationColumnType != NumericColumn {
 		errorString := fmt.Sprintf("Aggregate column with id %d not found or not numeric type", query.aggregateColumnID)
-		return false, errors.New(errorString)
+		return errors.New(errorString)
 	}
 	ok, groupingColumnType := calculator.dataset.GetColumnType(query.groupingColumnID)
 	if !ok || groupingColumnType != StringColumn {
 		errorString := fmt.Sprintf("Grouping column with id %d not found or not string type", query.groupingColumnID)
-		return false, errors.New(errorString)
+		return errors.New(errorString)
 	}
-	return true, nil
+	return nil
 }
 
-func (calculator *Calculator) computeAvg(aggregationColumn Column, groupingColumn Column) map[string]float32 {
+func (calculator *Calculator) computeAvg(aggregationColumn *ColumnNumeric, groupingColumn *ColumnString) map[string]float32 {
 	results := map[string]float32{}
 	return results
 }
 
-func (calculator *Calculator) computeMax(aggregationColumn Column, groupingColumn Column) map[string]float32 {
+func (calculator *Calculator) computeMax(aggregationColumn *ColumnNumeric, groupingColumn *ColumnString) map[string]float32 {
 	greater := func(i, j int) bool {
 		return i > j
 	}
 	return calculator.computeExtreme(aggregationColumn, groupingColumn, greater)
 }
 
-func (calculator *Calculator) computeMin(aggregationColumn Column, groupingColumn Column) map[string]float32 {
+func (calculator *Calculator) computeMin(aggregationColumn *ColumnNumeric, groupingColumn *ColumnString) map[string]float32 {
 	lower := func(i, j int) bool {
 		return i < j
 	}
 	return calculator.computeExtreme(aggregationColumn, groupingColumn, lower)
 }
 
-func (calculator *Calculator) computeExtreme(aggregationColumn Column,
-	groupingColumn Column,
+func (calculator *Calculator) computeExtreme(aggregationColumn *ColumnNumeric,
+	groupingColumn *ColumnString,
 	condition func(left, right int) bool) map[string]float32 {
 	return map[string]float32{}
 }
