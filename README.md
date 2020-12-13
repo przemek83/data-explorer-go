@@ -1,4 +1,4 @@
-# Data Explorer
+## Data Explorer
 Small tool for aggregating and grouping data. Written in Go, mimicking functionality of my older data-explorer project which was written in C++. Created to learn Go better, exercise TDD and have some fun.
 
 ## Table of content
@@ -10,7 +10,7 @@ Small tool for aggregating and grouping data. Written in Go, mimicking functiona
 ## Problem description
 For given input data allow calculating average, minimum and maximum taking into consideration grouping column.
 
-# Usage 
+## Usage 
 `dataexplorer file {avg,min,max} aggregation grouping`  
 Where:  
 + `file` - name of file with data to load,  
@@ -29,7 +29,7 @@ Results:
 map[dave:8 tamas:5.5 tim:8]
 ```
 
-# Input data format
+## Input data format
 Input data need to have following structure:  
 ```
 <column 1 name>;<column 2 name>;<column 3 name>  
