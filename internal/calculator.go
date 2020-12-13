@@ -106,15 +106,15 @@ func (calculator *Calculator) computeExtreme(aggregationColumn *ColumnNumeric,
 	condition func(left, right float32) bool) map[string]float32 {
 	results := map[string]float32{}
 	for i := 0; i < aggregationColumn.GetSize(); i++ {
-		aggregation := float32(aggregationColumn.Get(i))
-		grouping := groupingColumn.Get(i)
-		current, exists := results[grouping]
+		value := float32(aggregationColumn.Get(i))
+		key := groupingColumn.Get(i)
+		currentValue, exists := results[key]
 		if !exists {
-			results[grouping] = aggregation
+			results[key] = value
 			continue
 		}
-		if condition(aggregation, current) {
-			results[grouping] = aggregation
+		if condition(value, currentValue) {
+			results[key] = value
 		}
 	}
 	return results
