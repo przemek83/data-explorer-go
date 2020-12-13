@@ -1,6 +1,8 @@
 package internal
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestColumnNumericGetType(t *testing.T) {
 	column := ColumnNumeric{}
@@ -27,5 +29,23 @@ func TestColumnNumericAppend(t *testing.T) {
 	column.Append(expectedValue)
 	if currentValue := column.Get(len(values)); currentValue != expectedValue {
 		t.Errorf("Wrong value returned, got %v, want %v", currentValue, expectedValue)
+	}
+}
+
+func TestColumnNumericGetSize(t *testing.T) {
+	tests := []struct {
+		name   string
+		column *ColumnNumeric
+		want   int
+	}{
+		{"Empty.", &ColumnNumeric{}, 0},
+		{"Not empty.", &ColumnNumeric{[]int{1, 2, 3, 4}}, 4},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.column.GetSize(); got != tt.want {
+				t.Errorf("ColumnNumeric.GetSize() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }
