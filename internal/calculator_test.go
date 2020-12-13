@@ -75,7 +75,7 @@ func TestCalculatorExecute(t *testing.T) {
 
 		{
 			"Wrong operation",
-			Query{UnknownOperation, 0, 0},
+			Query{UnknownOperation, score, firstName},
 			true,
 			map[string]float32{},
 		},
