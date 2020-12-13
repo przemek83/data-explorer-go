@@ -51,13 +51,13 @@ func (calculator *Calculator) Execute(query Query) (map[string]float32, error) {
 
 func (calculator *Calculator) columnTypesValid(query Query) (bool, error) {
 	ok, aggregationColumnType := calculator.dataset.GetColumnType(query.aggregateColumnID)
-	if !ok || aggregationColumnType != StringColumn {
-		errorString := fmt.Sprintf("Aggregate column with id %d not found or not string type", query.aggregateColumnID)
+	if !ok || aggregationColumnType != NumericColumn {
+		errorString := fmt.Sprintf("Aggregate column with id %d not found or not numeric type", query.aggregateColumnID)
 		return false, errors.New(errorString)
 	}
 	ok, groupingColumnType := calculator.dataset.GetColumnType(query.groupingColumnID)
-	if !ok || groupingColumnType != NumericColumn {
-		errorString := fmt.Sprintf("Grouping column with id %d not found or not numeric type", query.groupingColumnID)
+	if !ok || groupingColumnType != StringColumn {
+		errorString := fmt.Sprintf("Grouping column with id %d not found or not string type", query.groupingColumnID)
 		return false, errors.New(errorString)
 	}
 	return true, nil
