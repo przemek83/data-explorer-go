@@ -11,6 +11,6 @@ func MakeCalculator(dataset Dataset) Calculator {
 }
 
 // Execute - Execute given query on dataset.
-func (Calculator *Dataset) Execute(query Query) map[string]float32 {
+func (calculator *Calculator) Execute(query Query) map[string]float32 {
 	return map[string]float32{}
 }

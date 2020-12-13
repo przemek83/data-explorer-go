@@ -45,5 +45,7 @@ func main() {
 		programUsage()
 		os.Exit(1)
 	}
-	fmt.Printf("Query: %v\n", query)
+	calculator := internal.MakeCalculator(dataset)
+	results := calculator.Execute(query)
+	fmt.Printf("Results:\n%v\n", results)
 }
