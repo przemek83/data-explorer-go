@@ -11,7 +11,7 @@ Small tool for aggregating and grouping data. Written in Go, mimicking functiona
 For given input data allow calculating average, minimum and maximum taking into consideration grouping column.
 
 # Building
-
+TODO
 
 # Usage 
 `data-explorer file {avg,min,max} aggregation grouping`  
@@ -55,6 +55,9 @@ dave;0;inception;8
 dave;0;ender's_game;8
 ```
 Not too flexible format of data was used for simplicity of parsing.
+
+# Testing
+TODO
 
 # License
 Project is distributed under the MIT License. See `LICENSE` for more information.
