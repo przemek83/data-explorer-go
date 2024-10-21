@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"dataexplorer/internal"
+	"data-explorer-go/internal"
 	"fmt"
 	"os"
 	"path/filepath"

@@ -11,7 +11,7 @@ Small tool for aggregating and grouping data. Written in Go, mimicking functiona
 For given input data allow calculating average, minimum and maximum taking into consideration grouping column.
 
 ## Usage 
-`dataexplorer file {avg,min,max} aggregation grouping`  
+`data-explorer-go file {avg,min,max} aggregation grouping`  
 Where:  
 + `file` - name of file with data to load,  
 + `{avg,min,max}` - type of operation, use one of those,  
@@ -19,7 +19,7 @@ Where:
 + `grouping` - name of column used for grouping data.
 
 Example usage:  
-`dataexplorer sample.txt avg score first_name`  
+`data-explorer-go sample.txt avg score first_name`  
 
 Example output:
 ```
