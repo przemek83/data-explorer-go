@@ -2,33 +2,7 @@ name: Static analysis and coverage
 
 on: [push, pull_request]
 
-env:
-  GO_VERSION: "1.22"
-
 jobs:
-  test:
-    name: Run tests and collect coverage
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up Go ${{env.GO_VERSION}}
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{env.GO_VERSION}}
-    
-      - name: Test
-        run: go test -v ./... -coverprofile=coverage.txt
-
-      - name: Upload results to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env: 
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  analyze:
+    uses: przemek83/common/.github/workflows/static-analysis-and-coverage-go.yml@main
+    secrets: inherit
