@@ -9,23 +9,27 @@
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=przemek83_data-explorer-go&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=przemek83_data-explorer-go)
 
 # Table of content
+- [About Project](#about-project)
 - [Problem description](#problem-description)
-- [Usage](#usage)
+- [Building](#building)
+- [Usage ](#usage)
 - [Input data format](#input-data-format)
+- [Testing](#testing)
 - [License](#license)
 
+
 # About Project
-Small tool for aggregating and grouping data. Written in Go, mimicking functionality of my older data-explorer project which was written in C++. Created to learn Go better, exercise TDD and have some fun.
+Small tool for aggregating and grouping data. Written in Go, it mimics the functionality of my older data-explorer project, which was written in C++. Created to learn Go better, exercise TDD and have some fun.
 
 # Problem description
-For given input data allow calculating average, minimum and maximum taking into consideration grouping column.
+For given input data, allow calculating the average, minimum and maximum, taking into consideration the grouping column.
 
 # Building
-First you need to download repo to you machine. Make sure you have go installed and version is greater or equal to `1.22`. Having that done use following command to build:
+First, you need to download the repo to your machine. Make sure you have Go installed and the version is greater or equal to `1.22`. Having that done, use the following command to build:
 ```
 go build cmd/data-explorer/data-explorer.go
 ```
-When executed in root directory of repository, it should create binary called `data-explorer`.
+When executed in the root directory of the repository, it should create a binary called `data-explorer`.
 
 # Usage 
 `data-explorer file {avg,min,max} aggregation grouping`  
@@ -47,7 +51,7 @@ map[dave:8 tamas:5.5 tim:8]
 ```
 
 # Input data format
-Input data need to have following structure:  
+Input data need to have the following structure:  
 ```
 <column 1 name>;<column 2 name>;<column 3 name>  
 <column 1 type>;<column 2 type>;<column 3 type>  
@@ -68,10 +72,10 @@ tamas;44;pulp_fiction;4
 dave;0;inception;8
 dave;0;ender's_game;8
 ```
-Not too flexible format of data was used for simplicity of parsing.
+A non-flexible format of data was used for simplicity of parsing.
 
 # Testing
-To executre tests manually, open root directory of repository and run command:
+To execute tests manually, open root directory of repository and run command:
 ```
 go test -v ./...
 ```
@@ -93,4 +97,4 @@ It should generate similar output:
     ok  	data-explorer/internal	0.004s
 
 # License
-Project is distributed under the MIT License. See `LICENSE` for more information.
+The project is distributed under the MIT License. See `LICENSE` for more information.
