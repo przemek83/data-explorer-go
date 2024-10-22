@@ -1,5 +1,12 @@
 [![Build & test](https://github.com/przemek83/data-explorer-go/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/przemek83/data-explorer-go/actions/workflows/build-and-test.yml)
 [![CodeQL](https://github.com/przemek83/data-explorer-go/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/przemek83/data-explorer-go/actions/workflows/github-code-scanning/codeql)
+[![codecov](https://codecov.io/github/przemek83/data-explorer-go/graph/badge.svg?token=C49CYPL3LL)](https://codecov.io/github/przemek83/data-explorer-go)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=przemek83_data-explorer-go&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=przemek83_data-explorer-go)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=przemek83_data-explorer-go&metric=bugs)](https://sonarcloud.io/summary/new_code?id=przemek83_data-explorer-go)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=przemek83_data-explorer-go&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=przemek83_data-explorer-go)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=przemek83_data-explorer-go&metric=coverage)](https://sonarcloud.io/summary/new_code?id=przemek83_data-explorer-go)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=przemek83_data-explorer-go&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=przemek83_data-explorer-go)
 
 # Table of content
 - [Problem description](#problem-description)
