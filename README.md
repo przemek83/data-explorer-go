@@ -21,7 +21,7 @@ Small tool for aggregating and grouping data. Written in Go, mimicking functiona
 For given input data allow calculating average, minimum and maximum taking into consideration grouping column.
 
 # Building
-First you need to download repo to you machine. MAke sure you have go installed and version is greater or equal to `1.20`. Having that done use following command to build:
+First you need to download repo to you machine. Make sure you have go installed and version is greater or equal to `1.22`. Having that done use following command to build:
 ```
 go build cmd/data-explorer/data-explorer.go
 ```
