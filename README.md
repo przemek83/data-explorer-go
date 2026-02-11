@@ -19,13 +19,13 @@
 
 
 # About Project
-Small tool for aggregating and grouping data. Written in Go, it mimics the functionality of my older data-explorer project, which was written in C++. Created to learn Go better, exercise TDD and have some fun.
+A small tool for aggregating and grouping data. Written in Go, it mimics the functionality of my older data-explorer project, which was written in C++. Created to learn Go better, exercise TDD and have some fun.
 
 # Problem description
-For given input data, allow calculating the average, minimum and maximum, taking into consideration the grouping column.
+For given input data, allow calculating the average, minimum, and maximum, taking into consideration the grouping column.
 
 # Building
-First, you need to download the repo to your machine. Make sure you have Go installed and the version is greater or equal to `1.22`. Having that done, use the following command to build:
+First, you need to download the repo to your machine. Make sure you have Go installed and the version is greater than or equal to `1.22`. Having that done, use the following command to build:
 ```
 go build cmd/data-explorer/data-explorer.go
 ```
