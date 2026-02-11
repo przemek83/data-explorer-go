@@ -34,10 +34,10 @@ When executed in the root directory of the repository, it should create a binary
 # Usage 
 `data-explorer file {avg,min,max} aggregation grouping`  
 Where:  
-+ `file` - name of file with data to load,  
++ `file` - name of the file with data to load,  
 + `{avg,min,max}` - type of operation, use one of those,  
 + `aggregation` - name of column used for aggregating data,  
-+ `grouping` - name of column used for grouping data.
++ `grouping` - name of the column used for grouping data.
 
 Example usage:  
 `data-explorer sample.txt avg score first_name`  
